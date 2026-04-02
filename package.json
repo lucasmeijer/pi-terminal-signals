@@ -1,0 +1,46 @@
+{
+  "name": "pi-terminal-signals",
+  "version": "0.1.0",
+  "description": "Pi extension that communicates agent lifecycle to the terminal via OSC 9;4 (progress) and OSC 133 (semantic prompts).",
+  "type": "module",
+  "author": "Lucas Meijer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasmeijer/pi-terminal-signals.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasmeijer/pi-terminal-signals/issues"
+  },
+  "homepage": "https://github.com/lucasmeijer/pi-terminal-signals#readme",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "extension",
+    "terminal",
+    "osc",
+    "progress",
+    "ghostty",
+    "wezterm",
+    "iterm2",
+    "kitty",
+    "semantic-prompts"
+  ],
+  "files": [
+    "index.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*"
+  }
+}
