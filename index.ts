@@ -63,18 +63,28 @@ function markCommandDone() {
 	writeOSC("133;D;0");
 }
 
+// Ghostty dismisses the progress indicator 15 s after the last OSC 9;4;3.
+// Re-send every 10 s so the spinner stays visible during long agent runs.
+const PROGRESS_INTERVAL_MS = 10_000;
+
 export default function (pi: ExtensionAPI) {
 	let active = false;
+	let interval: ReturnType<typeof setInterval> | null = null;
 
 	function ensureStarted() {
 		if (active) return;
 		active = true;
 		startProgress();
+		interval = setInterval(startProgress, PROGRESS_INTERVAL_MS);
 	}
 
 	function ensureStopped() {
 		if (!active) return;
 		active = false;
+		if (interval !== null) {
+			clearInterval(interval);
+			interval = null;
+		}
 		stopProgress();
 		markCommandDone();
 	}
