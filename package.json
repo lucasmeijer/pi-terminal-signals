@@ -1,18 +1,18 @@
 {
-  "name": "pi-terminal-signals",
+  "name": "@jwu/pi-terminal-signals",
   "version": "0.1.0",
   "description": "Pi extension that communicates agent lifecycle to the terminal via OSC 9;4 (progress) and OSC 133 (semantic prompts).",
   "type": "module",
-  "author": "Lucas Meijer",
+  "author": "jwu",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lucasmeijer/pi-terminal-signals.git"
+    "url": "git+https://github.com/jwu/pi-terminal-signals.git"
   },
   "bugs": {
-    "url": "https://github.com/lucasmeijer/pi-terminal-signals/issues"
+    "url": "https://github.com/jwu/pi-terminal-signals/issues"
   },
-  "homepage": "https://github.com/lucasmeijer/pi-terminal-signals#readme",
+  "homepage": "https://github.com/jwu/pi-terminal-signals#readme",
   "keywords": [
     "pi-package",
     "pi",

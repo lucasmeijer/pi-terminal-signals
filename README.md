@@ -7,14 +7,14 @@ Supacode, Supaterm and Conductor use it to display a spinner / finished icon on 
 
 ## Demo
 
-https://github.com/user-attachments/assets/1cdefbb4-e7c7-40a3-824d-2ccaddbd3a54
+https://github.com/user-attachments/assets/911ac2fb-f505-4a66-8593-b12afdcb710a
 
 *Unmute for audio.*
 
 ## Install
 
 ```bash
-pi install npm:pi-terminal-signals
+pi install npm:@jwu/pi-terminal-signals
 ```
 
 ## What it does
