@@ -25,7 +25,7 @@
 import type {
   ExtensionAPI,
   ExtensionContext,
-} from '@mariozechner/pi-coding-agent';
+} from '@earendil-works/pi-coding-agent';
 
 const OSC = '\x1b]';
 const BEL = '\x07';
