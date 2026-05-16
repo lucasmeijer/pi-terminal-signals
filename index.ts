@@ -22,13 +22,16 @@
  *   pi install npm:pi-terminal-signals
  */
 
-import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type {
+  ExtensionAPI,
+  ExtensionContext,
+} from '@earendil-works/pi-coding-agent';
 
-const OSC = "\x1b]";
-const BEL = "\x07";
+const OSC = '\x1b]';
+const BEL = '\x07';
 
 function writeOSC(sequence: string) {
-	process.stdout.write(`${OSC}${sequence}${BEL}`);
+  process.stdout.write(`${OSC}${sequence}${BEL}`);
 }
 
 /**
@@ -38,11 +41,11 @@ function writeOSC(sequence: string) {
  * State 0 = clear / remove progress indicator.
  */
 function startProgress() {
-	writeOSC("9;4;3");
+  writeOSC('9;4;3');
 }
 
 function stopProgress() {
-	writeOSC("9;4;0");
+  writeOSC('9;4;0');
 }
 
 /**
@@ -60,38 +63,48 @@ function stopProgress() {
  * mark meaningless positions and confuse terminal features.
  */
 function markCommandDone() {
-	writeOSC("133;D;0");
+  writeOSC('133;D;0');
 }
 
+// Ghostty dismisses the progress indicator 15 s after the last OSC 9;4;3.
+// Re-send every 10 s so the spinner stays visible during long agent runs.
+const PROGRESS_INTERVAL_MS = 10_000;
+
 export default function (pi: ExtensionAPI) {
-	let active = false;
+  let active = false;
+  let interval: ReturnType<typeof setInterval> | null = null;
 
-	function ensureStarted() {
-		if (active) return;
-		active = true;
-		startProgress();
-	}
+  function ensureStarted() {
+    if (active) return;
+    active = true;
+    startProgress();
+    interval = setInterval(startProgress, PROGRESS_INTERVAL_MS);
+  }
 
-	function ensureStopped() {
-		if (!active) return;
-		active = false;
-		stopProgress();
-		markCommandDone();
-	}
+  function ensureStopped() {
+    if (!active) return;
+    active = false;
+    if (interval !== null) {
+      clearInterval(interval);
+      interval = null;
+    }
+    stopProgress();
+    markCommandDone();
+  }
 
-	pi.on("agent_start", async (_event, _ctx: ExtensionContext) => {
-		ensureStarted();
-	});
+  pi.on('agent_start', async (_event, _ctx: ExtensionContext) => {
+    ensureStarted();
+  });
 
-	pi.on("agent_end", async (_event, _ctx: ExtensionContext) => {
-		ensureStopped();
-	});
+  pi.on('agent_end', async (_event, _ctx: ExtensionContext) => {
+    ensureStopped();
+  });
 
-	pi.on("session_shutdown", async (_event, _ctx: ExtensionContext) => {
-		ensureStopped();
-	});
+  pi.on('session_shutdown', async (_event, _ctx: ExtensionContext) => {
+    ensureStopped();
+  });
 
-	pi.on("session_switch", async (_event, _ctx: ExtensionContext) => {
-		ensureStopped();
-	});
+  pi.on('session_switch', async (_event, _ctx: ExtensionContext) => {
+    ensureStopped();
+  });
 }
